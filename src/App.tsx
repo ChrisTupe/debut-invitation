@@ -701,6 +701,12 @@ function App() {
                   </div>
                 </button>
               ))}
+        {/* Footer credit */}
+        <footer className="w-full px-4 py-6 text-center border-t border-[#7b2d8e]/20">
+          <p className="text-[#e8b4c8]/50 text-[10px] sm:text-xs tracking-widest uppercase">
+            Developed by Christopher Santos
+          </p>
+        </footer>
             </div>
           </div>
         </div>
