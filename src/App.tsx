@@ -210,44 +210,56 @@ function useModalTransition(isOpen: boolean, duration = 300) {
   return { shouldRender, isVisible }
 }
 
-// Faint, scattered debut-themed icons in the background
+// Faint, scattered debut-themed icons in the background.
+// Sized responsively (clamp) so they read clearly on mobile instead of
+// disappearing entirely, and spaced more densely so there are no large
+// empty gaps on narrow viewports.
 function BackgroundDecor() {
   const icons: {
     Icon: typeof Sparkles
     top: string
     left: string
     size: number
+    minSize: number
     rotate: number
     opacity: number
     color: string
   }[] = [
-    { Icon: Sparkles, top: "5%", left: "8%", size: 40, rotate: -12, opacity: 0.07, color: "#e8b4c8" },
-    { Icon: Crown, top: "10%", left: "84%", size: 56, rotate: 10, opacity: 0.06, color: "#c9184b" },
-    { Icon: PartyPopper, top: "30%", left: "4%", size: 46, rotate: -18, opacity: 0.06, color: "#7b2d8e" },
-    { Icon: Star, top: "20%", left: "48%", size: 24, rotate: 8, opacity: 0.07, color: "#e8b4c8" },
-    { Icon: Gift, top: "42%", left: "90%", size: 44, rotate: 15, opacity: 0.06, color: "#c9184b" },
-    { Icon: Flower2, top: "55%", left: "9%", size: 36, rotate: -6, opacity: 0.07, color: "#7b2d8e" },
-    { Icon: Sparkles, top: "66%", left: "80%", size: 32, rotate: 20, opacity: 0.06, color: "#c9184b" },
-    { Icon: Star, top: "76%", left: "18%", size: 28, rotate: -10, opacity: 0.06, color: "#e8b4c8" },
-    { Icon: Crown, top: "86%", left: "62%", size: 40, rotate: -8, opacity: 0.06, color: "#7b2d8e" },
-    { Icon: PartyPopper, top: "6%", left: "36%", size: 30, rotate: 25, opacity: 0.06, color: "#e8b4c8" },
-    { Icon: Flower2, top: "92%", left: "34%", size: 30, rotate: 12, opacity: 0.06, color: "#c9184b" },
-    { Icon: Gift, top: "62%", left: "45%", size: 26, rotate: -22, opacity: 0.05, color: "#7b2d8e" },
+    { Icon: Sparkles, top: "4%", left: "10%", size: 52, minSize: 30, rotate: -12, opacity: 0.12, color: "#e8b4c8" },
+    { Icon: Crown, top: "8%", left: "78%", size: 64, minSize: 34, rotate: 10, opacity: 0.1, color: "#c9184b" },
+    { Icon: Star, top: "16%", left: "40%", size: 34, minSize: 22, rotate: 8, opacity: 0.12, color: "#e8b4c8" },
+    { Icon: PartyPopper, top: "22%", left: "6%", size: 54, minSize: 30, rotate: -18, opacity: 0.1, color: "#7b2d8e" },
+    { Icon: Gift, top: "26%", left: "88%", size: 52, minSize: 30, rotate: 15, opacity: 0.1, color: "#c9184b" },
+    { Icon: Sparkles, top: "34%", left: "58%", size: 30, minSize: 20, rotate: 22, opacity: 0.1, color: "#7b2d8e" },
+    { Icon: Flower2, top: "40%", left: "16%", size: 44, minSize: 26, rotate: -6, opacity: 0.12, color: "#7b2d8e" },
+    { Icon: Star, top: "46%", left: "90%", size: 32, minSize: 20, rotate: -10, opacity: 0.1, color: "#e8b4c8" },
+    { Icon: Crown, top: "52%", left: "30%", size: 40, minSize: 24, rotate: -8, opacity: 0.1, color: "#7b2d8e" },
+    { Icon: Sparkles, top: "58%", left: "72%", size: 38, minSize: 24, rotate: 20, opacity: 0.11, color: "#c9184b" },
+    { Icon: PartyPopper, top: "64%", left: "10%", size: 46, minSize: 28, rotate: 25, opacity: 0.1, color: "#e8b4c8" },
+    { Icon: Gift, top: "68%", left: "50%", size: 34, minSize: 22, rotate: -22, opacity: 0.1, color: "#7b2d8e" },
+    { Icon: Flower2, top: "74%", left: "84%", size: 42, minSize: 26, rotate: 12, opacity: 0.11, color: "#c9184b" },
+    { Icon: Star, top: "80%", left: "20%", size: 30, minSize: 20, rotate: 6, opacity: 0.1, color: "#e8b4c8" },
+    { Icon: Crown, top: "86%", left: "62%", size: 48, minSize: 28, rotate: -8, opacity: 0.1, color: "#7b2d8e" },
+    { Icon: Sparkles, top: "92%", left: "34%", size: 36, minSize: 22, rotate: 12, opacity: 0.1, color: "#c9184b" },
+    { Icon: PartyPopper, top: "96%", left: "78%", size: 40, minSize: 24, rotate: -15, opacity: 0.1, color: "#e8b4c8" },
+    { Icon: Flower2, top: "12%", left: "58%", size: 28, minSize: 18, rotate: 4, opacity: 0.09, color: "#c9184b" },
+    { Icon: Gift, top: "48%", left: "4%", size: 30, minSize: 20, rotate: 18, opacity: 0.09, color: "#7b2d8e" },
+    { Icon: Star, top: "62%", left: "94%", size: 26, minSize: 18, rotate: -14, opacity: 0.09, color: "#e8b4c8" },
   ]
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       {icons.map((item, i) => {
-        const { Icon, top, left, size, rotate, opacity, color } = item
+        const { Icon, top, left, size, minSize, rotate, opacity, color } = item
         return (
           <Icon
             key={i}
-            size={size}
-            className="hidden sm:block"
             style={{
               position: "absolute",
               top,
               left,
+              width: `clamp(${minSize}px, 8vw, ${size}px)`,
+              height: `clamp(${minSize}px, 8vw, ${size}px)`,
               transform: `rotate(${rotate}deg)`,
               opacity,
               color,
