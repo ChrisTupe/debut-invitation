@@ -28,7 +28,7 @@ const ROSES = [
   "Engr. Gian Carlo Santos",
   "Tristan Martin",
   "Agri Engr 2 Lt. Reynaldo Santos Jr.",
-  "Dominic Intacto",
+  "Engr. Dominic James S. Intacto, ECT",
   "Christopher Bong Santos",
   "Justin Santos",
   "John Gabriel Valenzuela",
@@ -43,9 +43,9 @@ const ROSES = [
 
 // The 18 Bills
 const BILLS = [
-  "Dra. Maria Salvacion Santos",
+  "Dra. Ma Salvacion Santos",
   "Tes Del Rosario RN",
-  "Jack Intacto",
+  "Leonila S. Intacto",
   "Maritess Gaufo",
   "Vilma Martin",
   "Alice Zamora",
@@ -74,7 +74,7 @@ const SHOTS = [
   "Joey Santos",
   "Billy Gaufo",
   "Edwin Martin",
-  "Freddie Intacto",
+  "Ferdinand I. Intacto",
   "Onofre Valenzuela",
   "Boy Tagalag",
   "Lando Paulino",
@@ -101,9 +101,9 @@ const CANDLES = [
   "Helena Paulino",
   "Carla Ysabel Paulino",
   "Marie Oliva",
-  "Trisha Martin",
+  "Trisha Martin CHRA",
   "Bea Santos",
-  "Ayesha Gaufo",
+  "Ayessa Gaufo",
   "Mommy Tina Santos",
 ]
 
