@@ -102,8 +102,8 @@ const CANDLES = [
   "Carla Ysabel Paulino",
   "Marie Oliva",
   "Trisha Martin",
-  "Classmate ni Mae",
-  "Classmate ni Mae",
+  "Bea Santos",
+  "Ayesha Gaufo",
   "Mommy Tina Santos",
 ]
 
