@@ -30,7 +30,7 @@ const ROSES = [
   "Agri Engr 2 Lt. Reynaldo Santos Jr.",
   "Dominic Intacto",
   "Christopher Bong Santos",
-  "Juztin Santos",
+  "Justin Santos",
   "John Gabriel Valenzuela",
   "Tristanlex Valenzuela",
   "Isaiah Zamora",
@@ -41,7 +41,7 @@ const ROSES = [
   "Jhas Santos",
 ]
 
-// The 18 Bills (Treasures)
+// The 18 Bills
 const BILLS = [
   "Dra. Maria Salvacion Santos",
   "Tes Del Rosario RN",
@@ -129,10 +129,17 @@ const SECTIONS: {
   glyphSize: number
 }[] = [
   { key: "roses", title: "18 Roses", list: ROSES, Icon: Flower2, glyphSize: 30 },
-  { key: "bills", title: "18 Treasures", list: BILLS, Icon: Banknote, glyphSize: 28 },
+  { key: "bills", title: "18 Bills", list: BILLS, Icon: Banknote, glyphSize: 28 },
   { key: "shots", title: "18 Shots", list: SHOTS, Icon: Wine, glyphSize: 30 },
   { key: "candles", title: "18 Candles", list: CANDLES, Icon: Flame, glyphSize: 30 },
   { key: "wishes", title: "Wishes of Classmates & Friends", list: WISHES, Icon: Heart, glyphSize: 28 },
+]
+
+// Dress code colors, displayed as simple named swatches
+const DRESS_CODE: { name: string; hex: string; border?: string }[] = [
+  { name: "Red", hex: "#c9184b" },
+  { name: "Violet", hex: "#7b2d8e" },
+  { name: "White", hex: "#f5e6ee", border: "#7b2d8e" },
 ]
 
 const STOP_WORDS = new Set(["dr", "dra", "doc", "engr", "lt", "jr", "agri", "rn", "rm", "rt", "rmt", "de", "del", "san", "lola", "ni"])
@@ -271,6 +278,56 @@ function BackgroundDecor() {
   )
 }
 
+// Faint decorative icons inside each guest-list modal, echoing the
+// background pattern but scaled down and mixed with the section's own
+// icon so each modal (Roses / Bills / Shots / Candles / Wishes) feels
+// consistent with the overall invitation design.
+function ModalDecor({ Icon }: { Icon: typeof Sparkles }) {
+  const icons: {
+    Icon: typeof Sparkles
+    top: string
+    left: string
+    size: number
+    rotate: number
+    opacity: number
+    color: string
+  }[] = [
+    { Icon: Sparkles, top: "3%", left: "8%", size: 24, rotate: -12, opacity: 0.1, color: "#e8b4c8" },
+    { Icon, top: "6%", left: "82%", size: 34, rotate: 14, opacity: 0.09, color: "#c9184b" },
+    { Icon: Star, top: "22%", left: "90%", size: 18, rotate: 8, opacity: 0.1, color: "#e8b4c8" },
+    { Icon, top: "34%", left: "4%", size: 28, rotate: -16, opacity: 0.09, color: "#7b2d8e" },
+    { Icon: PartyPopper, top: "48%", left: "88%", size: 20, rotate: 20, opacity: 0.09, color: "#c9184b" },
+    { Icon, top: "60%", left: "6%", size: 26, rotate: 10, opacity: 0.09, color: "#7b2d8e" },
+    { Icon: Crown, top: "74%", left: "84%", size: 20, rotate: -10, opacity: 0.09, color: "#7b2d8e" },
+    { Icon, top: "88%", left: "12%", size: 22, rotate: 6, opacity: 0.09, color: "#c9184b" },
+    { Icon: Gift, top: "16%", left: "44%", size: 18, rotate: 12, opacity: 0.08, color: "#e8b4c8" },
+    { Icon, top: "94%", left: "60%", size: 24, rotate: -8, opacity: 0.08, color: "#c9184b" },
+  ]
+
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {icons.map((item, i) => {
+        const { Icon: ItemIcon, top, left, size, rotate, opacity, color } = item
+        return (
+          <ItemIcon
+            key={i}
+            style={{
+              position: "absolute",
+              top,
+              left,
+              width: size,
+              height: size,
+              transform: `rotate(${rotate}deg)`,
+              opacity,
+              color,
+            }}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
 function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const guestSectionRef = useRef<HTMLDivElement | null>(null)
@@ -360,7 +417,7 @@ function App() {
   return (
     <div className="min-h-screen w-full bg-[#1f0d1a] relative overflow-x-hidden">
       {/* Replace src with your own legally obtained audio file */}
-      <audio ref={audioRef} src="/Mananatili.mp3" loop />
+      <audio ref={audioRef} src="/kanibalismo.mp3" loop />
 
       {/* Faint background decor */}
       <BackgroundDecor />
@@ -436,60 +493,66 @@ function App() {
             }`}
           >
             <div
-              className={`bg-[#2a1220] border border-[#7b2d8e]/40 rounded-2xl px-5 sm:px-6 py-7 sm:py-8 max-w-md w-full max-h-[80vh] overflow-y-auto relative transition-all duration-300 ease-out ${
+              className={`bg-[#2a1220] border border-[#7b2d8e]/40 rounded-2xl max-w-md w-full max-h-[80vh] relative overflow-hidden transition-all duration-300 ease-out ${
                 sectionModalTransition.isVisible
                   ? "opacity-100 scale-100 translate-y-0"
                   : "opacity-0 scale-95 translate-y-4"
               }`}
             >
-              <button
-                onClick={() => setOpenSection(null)}
-                className="absolute top-4 right-4 text-[#e8b4c8] hover:text-[#c9184b] transition-colors"
-              >
-                <X size={18} />
-              </button>
-
               {SECTIONS.filter((s) => s.key === openSection).map((section) => (
-                <div key={section.key}>
-                  <div className="text-center mb-6 px-2">
-                    <section.Icon className="mx-auto text-[#c9184b] mb-2" size={28} />
-                    <h2 className="text-[#f5e6ee] text-xl sm:text-2xl font-serif leading-snug">{section.title}</h2>
-                  </div>
+                <ModalDecor key={`decor-${section.key}`} Icon={section.Icon} />
+              ))}
 
-                  <ul className="space-y-2">
-                    {section.list.map((name, i) => {
-                      const isHighlighted =
-                        highlighted?.section === section.key && highlighted?.name === name
-                      return (
-                        <li
-                          key={`${section.key}-${i}`}
-                          ref={isHighlighted ? highlightedItemRef : null}
-                          className={`flex items-baseline gap-3 px-3 py-2 rounded-lg transition-colors ${
-                            isHighlighted ? "bg-[#c9184b]/20 border border-[#c9184b]" : ""
-                          }`}
-                        >
-                          <span className="text-[#7b2d8e] text-sm w-5 shrink-0">
-                            {i + 1}.
-                          </span>
-                          <span
-                            className={`text-sm ${
-                              isHighlighted ? "text-[#f5e6ee] font-medium" : "text-[#e8b4c8]"
+              <div className="relative z-10 max-h-[80vh] overflow-y-auto px-5 sm:px-6 py-7 sm:py-8">
+                <button
+                  onClick={() => setOpenSection(null)}
+                  className="absolute top-4 right-4 text-[#e8b4c8] hover:text-[#c9184b] transition-colors"
+                >
+                  <X size={18} />
+                </button>
+
+                {SECTIONS.filter((s) => s.key === openSection).map((section) => (
+                  <div key={section.key}>
+                    <div className="text-center mb-6 px-2">
+                      <section.Icon className="mx-auto text-[#c9184b] mb-2" size={28} />
+                      <h2 className="text-[#f5e6ee] text-xl sm:text-2xl font-serif leading-snug">{section.title}</h2>
+                    </div>
+
+                    <ul className="space-y-2">
+                      {section.list.map((name, i) => {
+                        const isHighlighted =
+                          highlighted?.section === section.key && highlighted?.name === name
+                        return (
+                          <li
+                            key={`${section.key}-${i}`}
+                            ref={isHighlighted ? highlightedItemRef : null}
+                            className={`flex items-baseline gap-3 px-3 py-2 rounded-lg transition-colors ${
+                              isHighlighted ? "bg-[#c9184b]/20 border border-[#c9184b]" : ""
                             }`}
                           >
-                            {name}
-                          </span>
-                        </li>
-                      )
-                    })}
-                  </ul>
+                            <span className="text-[#7b2d8e] text-sm w-5 shrink-0">
+                              {i + 1}.
+                            </span>
+                            <span
+                              className={`text-sm ${
+                                isHighlighted ? "text-[#f5e6ee] font-medium" : "text-[#e8b4c8]"
+                              }`}
+                            >
+                              {name}
+                            </span>
+                          </li>
+                        )
+                      })}
+                    </ul>
 
-                  {highlighted?.section === section.key && (
-                    <p className="text-center text-[#c9184b] text-xs tracking-wide mt-6">
-                      Welcome, {highlighted.name} 🌹
-                    </p>
-                  )}
-                </div>
-              ))}
+                    {highlighted?.section === section.key && (
+                      <p className="text-center text-[#c9184b] text-xs tracking-wide mt-6">
+                        Welcome, {highlighted.name} 🌹
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -533,7 +596,7 @@ function App() {
           </p>
 
           {/* Event details, now with supporting icons */}
-          <div className="space-y-3 mb-10 max-w-sm mx-auto">
+          <div className="space-y-3 mb-6 max-w-sm mx-auto">
             <div className="flex items-center justify-center gap-3">
               <CalendarDays size={20} className="text-[#c9184b] shrink-0" />
               <p className="text-[#f5e6ee] text-lg sm:text-xl md:text-2xl font-medium">
@@ -549,6 +612,41 @@ function App() {
               <p className="text-[#c9184b] text-sm sm:text-base text-left sm:text-center">
                 JCJ Santos Resort, Tinejero, Pulilan, Bulacan
               </p>
+            </div>
+          </div>
+
+          {/* Google Maps preview */}
+          <div className="max-w-md mx-auto mb-10 rounded-xl overflow-hidden border border-[#7b2d8e]/40">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3855.1806056688465!2d120.84169817334589!3d14.927027969004989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3396551bc0f85df7%3A0xa697e6d951eb9a9b!2sJCJ%20Resort!5e0!3m2!1sen!2sph!4v1789228027525!5m2!1sen!2sph"
+              width="100%"
+              height="220"
+              style={{ border: 0, display: "block" }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="Venue location map"
+            />
+          </div>
+
+          {/* Dress code, shown as color swatches */}
+          <div className="mb-10">
+            <p className="text-[#c9184b] tracking-[0.2em] text-xs uppercase mb-3">
+              Dress Code
+            </p>
+            <div className="flex items-center justify-center gap-6">
+              {DRESS_CODE.map((color) => (
+                <div key={color.name} className="flex flex-col items-center gap-2">
+                  <span
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full shadow-md"
+                    style={{
+                      backgroundColor: color.hex,
+                      border: `2px solid ${color.border ?? "rgba(255,255,255,0.15)"}`,
+                    }}
+                  />
+                  <span className="text-[#e8b4c8] text-xs tracking-wide">{color.name}</span>
+                </div>
+              ))}
             </div>
           </div>
 
