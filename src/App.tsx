@@ -362,7 +362,7 @@ function App() {
             </div>
             <div className="flex items-center justify-center gap-3 mb-3">
               <Clock size={16} className="text-[#7a1330] shrink-0" />
-              <p className="text-[#7a1330] text-sm sm:text-base">4:00 PM to 8:00 PM</p>
+              <p className="text-[#7a1330] text-sm sm:text-base">5:00 PM to 9:00 PM</p>
             </div>
             <div className="flex items-center justify-center gap-3 px-2">
               <MapPin size={16} className="text-[#7a1330] shrink-0" />
